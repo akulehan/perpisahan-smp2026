@@ -705,6 +705,7 @@
                 audioIcon.className = "fas fa-volume-mute text-slate-400";
                 isPlaying = false;
             } else {
+                music.volume = 0.2;
                 music.play();
                 audioIcon.className = "fas fa-volume-up text-amber-600 animate-pulse";
                 isPlaying = true;
