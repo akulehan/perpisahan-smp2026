@@ -559,7 +559,8 @@
             <!-- Video Player (Menggunakan Iframe YouTube Responsive) -->
             <div class="bg-white p-3 rounded-2xl border border-slate-100 shadow-md">
                 <div class="relative w-full pb-[56.25%] rounded-lg overflow-hidden bg-slate-900">
-                    <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/hw5obtrNgKQ" title="Video Perpisahan Sekolah" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <!-- YouTube player will be created here by the IFrame API -->
+                    <div id="youtube-player" class="absolute inset-0 w-full h-full"></div>
                 </div>
                 <div class="p-3">
                     <h4 class="font-bold text-sm text-slate-900">“Sebuah Lembar Cerita: Kapsul Kenangan Tiga Tahun”</h4>
@@ -685,8 +686,11 @@
         const audioIcon = document.getElementById('audio-icon');
         let isPlaying = false;
 
+        // Set volume default rendah supaya pemutaran tidak mengagetkan
+        if (music) music.volume = 0.2;
+
         function tryToPlayMusic() {
-            music.volume = 0.4; // Atur volume agar tidak mengagetkan
+            music.volume = 0.2; // Atur volume agar pemutaran awal tetap lembut
             music.play().then(() => {
                 isPlaying = true;
                 audioIcon.className = "fas fa-volume-up text-amber-600 animate-pulse";
@@ -870,6 +874,28 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadMessages();
         });
+
+        // --- YouTube IFrame API: buat player dan set volume sangat rendah saat diputar ---
+        var ytPlayer;
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('youtube-player', {
+                videoId: 'hw5obtrNgKQ',
+                playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
+                events: {
+                    'onReady': function(event) {
+                        try { event.target.setVolume(2); } catch(e) { /* ignore */ }
+                    },
+                    'onStateChange': function(event) {
+                        // Saat mulai memutar, set volume mendekati 0 (1-2)
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            try { event.target.setVolume(1); } catch(e) { /* ignore */ }
+                        }
+                    }
+                }
+            });
+        }
     </script>
+    <!-- Load YouTube IFrame API (creates global function onYouTubeIframeAPIReady) -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
