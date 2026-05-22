@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satu Dekade Kenangan - Perpisahan SMP Negeri 1 Lingga Timur</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cinzel untuk judul elegan, Inter untuk teks body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a8a', // Deep Blue
+                        secondary: '#d97706', // Soft Gold
+                        accent: '#60a5fa', // Light Blue
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animasi Kustom yang Ringan */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+        }
+        /* Sembunyikan scrollbar untuk galeri horizontal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans selection:bg-amber-200 selection:text-amber-900 overflow-x-hidden">
+
+    <!-- MUSIK LATAR & TOMBOL AUDIO -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="btn-audio" class="w-12 h-12 rounded-full bg-white shadow-lg border border-amber-200 text-amber-600 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform duration-200 focus:outline-none" title="Putar Musik Latar">
+            <i id="audio-icon" class="fas fa-music"></i>
+        </button>
+        <!-- Audio Instrumental Bebas Royalti (Bisa diganti URL musik pilihan panitia) -->
+        <audio id="bg-music" loop preload="auto">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- HALAMAN WELCOME (SPLASH SCREEN) -->
+    <div id="welcome-screen" class="fixed inset-0 z-[100] bg-gradient-to-br from-blue-950 via-slate-900 to-amber-950 flex flex-col items-center justify-center p-6 text-center transition-all duration-700">
+        <div class="max-w-md space-y-6 animate-fade-in">
+            <div class="mx-auto w-24 h-24 rounded-full border-2 border-amber-400 p-2 flex items-center justify-center bg-white/10 backdrop-blur-sm">
+                <i class="fas fa-graduation-cap text-4xl text-amber-400"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-serif text-amber-200 tracking-wider">Perpisahan dan Wisuda Purna Siswa Kelas IX</h1>
+            <p class="text-slate-300 font-light text-sm md:text-base leading-relaxed">
+                Melangkah dengan Karakter, Berkarya untuk Negeri <br>
+                <span class="font-semibold text-white">SMP NEGERI 1 LINGGA TIMUR</span><br>
+                Tahun Akademik 2025/2026
+            </p>
+            <div class="pt-4">
+                <button onclick="dismissWelcome()" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold rounded-full shadow-lg hover:shadow-amber-500/20 active:scale-95 transition-all duration-200 tracking-wide text-sm">
+                    Gerbang Auditorium <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR (MUNCUL SETELAH WELCOME SCREEN DIBUKA) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center text-white text-xs">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="font-serif font-bold text-sm text-blue-950 tracking-wider">SMPN 1 LINGGA TIMUR</span>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-xs font-semibold text-slate-600">
+                <a href="#beranda" class="hover:text-blue-900 transition-colors">Beranda</a>
+                <a href="#acara" class="hover:text-blue-900 transition-colors">Acara</a>
+                <a href="#galeri" class="hover:text-blue-900 transition-colors">Alumni</a>
+                <a href="#video" class="hover:text-blue-900 transition-colors">Dokumenter</a>
+                <a href="#bukutamu" class="hover:text-blue-900 transition-colors">Buku Tamu</a>
+            </nav>
+            <span class="text-[10px] md:text-xs px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-semibold">TP 2025/2026</span>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-4xl mx-auto px-4 pb-20 space-y-12">
+
+        <!-- 1. HERO SECTION -->
+        <section id="beranda" class="pt-6 text-center space-y-6">
+            <!-- Hero Banner / Ilustrasi Sekolah -->
+            <div class="relative rounded-2xl overflow-hidden h-48 md:h-64 shadow-md bg-gradient-to-r from-blue-900 to-slate-900 flex items-center justify-center">
+                <!-- Overlay Pattern -->
+                <div class="absolute inset-0 bg-black/40"></div>
+                <!-- Banner Content -->
+                <div class="relative z-10 px-4 text-white">
+                    <p class="text-xs uppercase tracking-widest text-amber-300 font-semibold mb-1">Perpisahan & Wisuda Purna Siswa</p>
+                    <h2 class="text-2xl md:text-4xl font-serif font-bold leading-tight">Melangkah dengan Karakter,<br>Berkarya untuk Negeri</h2>
+                    <p class="text-xs md:text-sm text-slate-300 mt-2 font-light">SMP Negeri 1 Lingga Timur • Angkatan XXXII</p>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="text-xs uppercase font-bold text-blue-900 tracking-wider">Hari Bersejarah Kita</h3>
+                <h4 class="text-xl font-serif font-extrabold text-slate-900">HITUNG MUNDUR ACARA</h4>
+            </div>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="grid grid-cols-4 gap-3 max-w-sm mx-auto">
+                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-center">
+                    <span id="days" class="block text-xl md:text-2xl font-bold text-blue-900 font-mono">00</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Hari</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-center">
+                    <span id="hours" class="block text-xl md:text-2xl font-bold text-blue-900 font-mono">00</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Jam</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-center">
+                    <span id="minutes" class="block text-xl md:text-2xl font-bold text-blue-900 font-mono">00</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Menit</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-center">
+                    <span id="seconds" class="block text-xl md:text-2xl font-bold text-blue-900 font-mono">00</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Detik</span>
+                </div>
+            </div>
+
+            <div>
+                <a href="#acara" class="inline-flex items-center justify-center px-6 py-2.5 bg-blue-900 hover:bg-blue-950 text-white font-semibold rounded-full text-sm shadow-md transition-all duration-200">
+                    Lihat Susunan Acara <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. SUSUNAN ACARA (TIMELINE INTERAKTIF) -->
+        <section id="acara" class="scroll-mt-20 space-y-6">
+            <div class="text-center">
+                <span class="text-amber-600 text-xs font-semibold tracking-widest uppercase">Agenda</span>
+                <h3 class="text-2xl font-serif font-bold text-slate-900">Susunan Acara</h3>
+                <div class="w-12 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative border-l-2 border-amber-200 ml-4 md:ml-6 space-y-6">
+                <!-- Item 1 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 08.00 - 08.30</span>
+                            <i class="fas fa-door-open text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Pembukaan & Registrasi</h4>
+                        <p class="text-xs text-slate-500 mt-1">Penyambutan wisudawan, orang tua, tamu undangan, serta pengisian buku tamu.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-blue-900 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 08.30 - 09.00</span>
+                            <i class="fas fa-microphone text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Sambutan Kepala Sekolah</h4>
+                        <p class="text-xs text-slate-500 mt-1">Pesan terakhir dan restu pelepasan dari Kepala SMP Negeri Indonesia.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 09.00 - 10.00</span>
+                            <i class="fas fa-star text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Penampilan Bakat Siswa</h4>
+                        <p class="text-xs text-slate-500 mt-1">Tari kolosal tradisional, solo vokal, serta persembahan band dari adik kelas.</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-blue-900 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 10.00 - 10.45</span>
+                            <i class="fas fa-film text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Pemutaran Video Dokumenter</h4>
+                        <p class="text-xs text-slate-500 mt-1">Kumpulan momen tawa, perjuangan, ujian, dan persahabatan selama 3 tahun terakhir.</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 10.45 - 11.30</span>
+                            <i class="fas fa-scroll text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Simbolis Kelulusan & Alumni</h4>
+                        <p class="text-xs text-slate-500 mt-1">Pengalungan medali kelulusan dan penyerahan bendera alumni kepada perwakilan angkatan.</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="relative pl-6 md:pl-8 group">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-slate-400 border-4 border-white shadow group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-semibold text-slate-600 bg-slate-50 px-2.5 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i> 11.30 - Selesai</span>
+                            <i class="fas fa-camera text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900">Penutup & Sesi Foto Bersama</h4>
+                        <p class="text-xs text-slate-500 mt-1">Doa bersama, ramah tamah, dan sesi foto studio bebas bersama guru & teman sekelas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. GALERI FOTO ALUMNI -->
+        <section id="galeri" class="scroll-mt-20 space-y-6">
+            <div class="text-center">
+                <span class="text-amber-600 text-xs font-semibold tracking-widest uppercase">Keluarga Besar</span>
+                <h3 class="text-2xl font-serif font-bold text-slate-900">Wajah Sahabat Kita</h3>
+                <div class="w-12 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+                <p class="text-xs text-slate-500 mt-2">Gunakan tombol pencarian di bawah untuk mencari nama temanmu.</p>
+            </div>
+
+            <!-- Fitur Cari Alumni -->
+            <div class="max-w-xs mx-auto">
+                <div class="relative">
+                    <input type="text" id="search-input" oninput="filterAlumni()" placeholder="Cari nama teman..." class="w-full pl-9 pr-4 py-2 text-xs rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent shadow-sm">
+                    <div class="absolute left-3.5 top-2.5 text-slate-400 text-xs">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Galeri -->
+            <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <!-- Data Alumni 1 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Andi Wijaya">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600', 'Andi Wijaya', 'Satu masa, beribu tawa. Terima kasih semuanya!')">
+                        <!-- Gunakan foto portrait gratis Unsplash dengan parameter kompresi agar ringan -->
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400" alt="Andi Wijaya" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Andi Wijaya</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-A</p>
+                </div>
+
+                <!-- Data Alumni 2 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Siti Rahma">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600', 'Siti Rahma', 'Jangan lupakan perjuangan kita saat ujian bersama ya!')">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400" alt="Siti Rahma" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Siti Rahma</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-A</p>
+                </div>
+
+                <!-- Data Alumni 3 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Budi Santoso">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600', 'Budi Santoso', 'Sampai jumpa di puncak kesuksesan kawan!')">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400" alt="Budi Santoso" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Budi Santoso</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-B</p>
+                </div>
+
+                <!-- Data Alumni 4 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Dewi Lestari">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600', 'Dewi Lestari', 'Kenangan ini akan selalu abadi di sudut hati ini.')">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400" alt="Dewi Lestari" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Dewi Lestari</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-B</p>
+                </div>
+
+                <!-- Data Alumni 5 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Eko Prasetyo">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600', 'Eko Prasetyo', 'Masa SMP adalah lembaran terbaik hidupku.')">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" alt="Eko Prasetyo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Eko Prasetyo</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-C</p>
+                </div>
+
+                <!-- Data Alumni 6 -->
+                <div class="gallery-item bg-white p-2 rounded-xl border border-slate-100 shadow-sm text-center group" data-name="Rina Amelia">
+                    <div class="relative overflow-hidden rounded-lg aspect-square mb-2 bg-slate-100 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=600', 'Rina Amelia', 'Terima kasih Bapak Ibu guru atas kesabarannya mendidik kami.')">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400" alt="Rina Amelia" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <p class="font-bold text-xs text-slate-900 truncate">Rina Amelia</p>
+                    <p class="text-[10px] text-amber-600 mt-0.5 font-medium truncate">IX-C</p>
+                </div>
+            </div>
+            
+            <p id="no-results" class="hidden text-center text-xs text-slate-400 py-6">Nama tidak ditemukan. Silakan periksa kembali ketikan Anda.</p>
+        </section>
+
+        <!-- LIGHTBOX DIALOG -->
+        <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex-col items-center justify-center p-4">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white text-2xl hover:text-amber-400 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="max-w-md w-full text-center space-y-4">
+                <img id="lightbox-img" src="" alt="Foto Alumni" class="w-full max-h-[60vh] object-contain rounded-lg">
+                <h4 id="lightbox-name" class="text-white text-lg font-serif font-bold"></h4>
+                <p id="lightbox-quote" class="text-amber-200 text-xs italic font-light px-4 leading-relaxed"></p>
+            </div>
+        </div>
+
+        <!-- 4. VIDEO DOKUMENTER (CINEMATIC VIEW) -->
+        <section id="video" class="scroll-mt-20 space-y-6">
+            <div class="text-center">
+                <span class="text-amber-600 text-xs font-semibold tracking-widest uppercase">Kapsul Waktu</span>
+                <h3 class="text-2xl font-serif font-bold text-slate-900">Video Kenangan</h3>
+                <div class="w-12 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <!-- Video Player (Menggunakan Iframe YouTube Responsive) -->
+            <div class="bg-white p-3 rounded-2xl border border-slate-100 shadow-md">
+                <div class="relative w-full pb-[56.25%] rounded-lg overflow-hidden bg-slate-900">
+                    <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Perpisahan Sekolah" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-bold text-sm text-slate-900">“Sebuah Lembar Cerita: Kapsul Kenangan Tiga Tahun”</h4>
+                    <p class="text-xs text-slate-500 mt-1">Dokumenter resmi perjalanan Angkatan LXI dari hari orientasi hingga detik-detik akhir kelulusan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. QUOTES & MEMORI SLIDER (AUTO-SLIDE) -->
+        <section class="bg-gradient-to-br from-blue-950 to-slate-900 text-white rounded-2xl p-6 shadow-lg text-center relative overflow-hidden">
+            <div class="absolute -top-10 -left-10 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
+            <div class="absolute -bottom-10 -right-10 w-24 h-24 bg-amber-500/10 rounded-full blur-xl"></div>
+            
+            <i class="fas fa-quote-left text-3xl text-amber-400 mb-4 opacity-70"></i>
+            
+            <!-- Slides Container -->
+            <div class="relative h-28 flex items-center justify-center">
+                <div id="quote-slide-1" class="quote-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 opacity-100">
+                    <p class="text-xs md:text-sm font-light italic leading-relaxed px-4">"Bukan jarak yang memisahkan kita, melainkan waktu yang memberikan ruang bagi kita masing-masing untuk tumbuh menjadi pribadi yang baru."</p>
+                    <span class="text-[10px] text-amber-300 font-semibold mt-3">— Bpk. Ahmad Subandi, Kepala Sekolah</span>
+                </div>
+                <div id="quote-slide-2" class="quote-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 opacity-0">
+                    <p class="text-xs md:text-sm font-light italic leading-relaxed px-4">"Di kantin belakang, di bawah pohon beringin, semua rahasia, cita-cita, dan canda tawa akan selalu tersimpan abadi di sekolah ini."</p>
+                    <span class="text-[10px] text-amber-300 font-semibold mt-3">— Amalia Lestari, Ketua OSIS</span>
+                </div>
+                <div id="quote-slide-3" class="quote-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 opacity-0">
+                    <p class="text-xs md:text-sm font-light italic leading-relaxed px-4">"Terima kasih atas segala bimbingan Bapak dan Ibu Guru. Kalian adalah lentera yang menuntun kami di saat gelap."</p>
+                    <span class="text-[10px] text-amber-300 font-semibold mt-3">— Fajar Kurniawan, Perwakilan Siswa</span>
+                </div>
+            </div>
+
+            <!-- Dot Navigator -->
+            <div class="flex justify-center space-x-1.5 mt-2">
+                <div class="dot-indicator w-2 h-2 rounded-full bg-amber-400"></div>
+                <div class="dot-indicator w-2 h-2 rounded-full bg-white/30"></div>
+                <div class="dot-indicator w-2 h-2 rounded-full bg-white/30"></div>
+            </div>
+        </section>
+
+        <!-- 6. BUKU TAMU DIGITAL -->
+        <section id="bukutamu" class="scroll-mt-20 space-y-6">
+            <div class="text-center">
+                <span class="text-amber-600 text-xs font-semibold tracking-widest uppercase">Interaksi</span>
+                <h3 class="text-2xl font-serif font-bold text-slate-900">Buku Tamu Digital</h3>
+                <div class="w-12 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+                <p class="text-xs text-slate-500 mt-2">Tuliskan doa, kesan, atau ucapan terbaikmu untuk angkatan kita.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+                <!-- Form Ucapan -->
+                <form id="guestbook-form" onsubmit="addMessage(event)" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="form-name" class="block text-[10px] font-bold text-slate-600 mb-1 uppercase tracking-wider">Nama Lengkap</label>
+                            <input type="text" id="form-name" required placeholder="Andi" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-900 focus:border-blue-900">
+                        </div>
+                        <div>
+                            <label for="form-class" class="block text-[10px] font-bold text-slate-600 mb-1 uppercase tracking-wider">Kelas / Asal</label>
+                            <input type="text" id="form-class" required placeholder="IX-A / Tamu" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-900 focus:border-blue-900">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="form-msg" class="block text-[10px] font-bold text-slate-600 mb-1 uppercase tracking-wider">Pesan Kenangan</label>
+                        <textarea id="form-msg" required rows="2" placeholder="Tulis ucapan atau harapan untuk teman-teman..." class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-900 focus:border-blue-900 resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2 bg-gradient-to-r from-blue-900 to-blue-950 text-white font-semibold rounded-lg text-xs shadow hover:from-blue-950 hover:to-slate-900 active:scale-95 transition-transform duration-150">
+                        <i class="far fa-paper-plane mr-1.5"></i> Kirim Ucapan
+                    </button>
+                </form>
+
+                <!-- Daftar Ucapan -->
+                <div class="border-t border-slate-100 pt-4">
+                    <h4 class="text-xs font-bold text-slate-900 mb-3"><i class="far fa-comments text-amber-500 mr-1"></i> Ucapan Teman-Teman</h4>
+                    <div id="messages-container" class="space-y-3 max-h-60 overflow-y-auto pr-1 no-scrollbar">
+                        <!-- Pesan dimasukkan lewat JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-center">
+        <div class="max-w-4xl mx-auto px-4 space-y-4">
+            <div class="flex items-center justify-center space-x-2 text-white">
+                <i class="fas fa-graduation-cap text-lg text-amber-400"></i>
+                <span class="font-serif font-bold tracking-wider text-sm">SMP NEGERI INDONESIA</span>
+            </div>
+            <p class="text-xs font-light max-w-sm mx-auto leading-relaxed">Terima kasih atas dedikasi panitia, guru, serta seluruh siswa Angkatan LXI yang telah menyukseskan acara ini.</p>
+            
+            <!-- Sosial Media Sekolah -->
+            <div class="flex justify-center space-x-4 pt-2">
+                <a href="#" class="text-slate-400 hover:text-white transition-colors text-sm" title="Website Sekolah"><i class="fas fa-globe"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors text-sm" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors text-sm" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-4 text-[10px] text-slate-500">
+                &copy; 2026 Panitia Perpisahan SMP Negeri Indonesia. Dibuat dengan cinta.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT UTK KONTROL FITUR -->
+    <script>
+        // 1. Tampilan Splash Screen / Welcome Page
+        function dismissWelcome() {
+            const welcome = document.getElementById('welcome-screen');
+            welcome.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Otomatis putar musik latar secara halus saat membuka
+            tryToPlayMusic();
+            
+            setTimeout(() => {
+                welcome.remove();
+            }, 700);
+        }
+
+        // 2. Musik Latar & Kontrol Volume
+        const music = document.getElementById('bg-music');
+        const btnAudio = document.getElementById('btn-audio');
+        const audioIcon = document.getElementById('audio-icon');
+        let isPlaying = false;
+
+        function tryToPlayMusic() {
+            music.volume = 0.4; // Atur volume agar tidak mengagetkan
+            music.play().then(() => {
+                isPlaying = true;
+                audioIcon.className = "fas fa-volume-up text-amber-600 animate-pulse";
+            }).catch(e => {
+                console.log("Autoplay dicegah oleh browser. Memerlukan interaksi manual.");
+            });
+        }
+
+        btnAudio.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                audioIcon.className = "fas fa-volume-mute text-slate-400";
+                isPlaying = false;
+            } else {
+                music.play();
+                audioIcon.className = "fas fa-volume-up text-amber-600 animate-pulse";
+                isPlaying = true;
+            }
+        });
+
+        // 3. Countdown Timer
+        // Set tanggal perpisahan SMP (Sesuaikan tanggal acara Anda di sini)
+        const targetDate = new Date("2026-05-23T08:30:00");
+        // Default: 3 hari dari sekarang untuk demonstrasi
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference < 0) {
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('minutes').innerText = "00";
+                document.getElementById('seconds').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 4. Filter Cari Nama Alumni
+        function filterAlumni() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.gallery-item');
+            let foundCount = 0;
+
+            items.forEach(item => {
+                const name = item.getAttribute('data-name').toLowerCase();
+                if (name.includes(query)) {
+                    item.classList.remove('hidden');
+                    foundCount++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            const alertNoResult = document.getElementById('no-results');
+            if (foundCount === 0) {
+                alertNoResult.classList.remove('hidden');
+            } else {
+                alertNoResult.classList.add('hidden');
+            }
+        }
+
+        // 5. Lightbox Foto
+        function openLightbox(imgUrl, name, quote) {
+            document.getElementById('lightbox-img').src = imgUrl;
+            document.getElementById('lightbox-name').innerText = name;
+            document.getElementById('lightbox-quote').innerText = `"${quote}"`;
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.getElementById('lightbox').classList.add('flex');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox').classList.remove('flex');
+        }
+
+        // 6. Quotes Auto-Slide
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.quote-slide');
+        const dots = document.querySelectorAll('.dot-indicator');
+
+        function showNextSlide() {
+            slides[currentSlide].classList.remove('opacity-100');
+            slides[currentSlide].classList.add('opacity-0');
+            dots[currentSlide].classList.replace('bg-amber-400', 'bg-white/30');
+
+            currentSlide = (currentSlide + 1) % slides.length;
+
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-100');
+            dots[currentSlide].classList.replace('bg-white/30', 'bg-amber-400');
+        }
+        setInterval(showNextSlide, 4500); // Ganti slide setiap 4.5 detik
+
+        // 7. Buku Tamu Digital (Local Storage agar data presisten di HP pengakses)
+        const messagesContainer = document.getElementById('messages-container');
+        
+        // Dummy ucapan bawaan (sebagai inspirasi pertama)
+        const defaultMessages = [
+            { name: "Siti Rahma", class: "IX-A", text: "Terima kasih untuk 3 tahun yang luar biasa ini! Sukses terus ya semuanya." },
+            { name: "Budi Santoso", class: "IX-B", text: "Jangan lupa sering-sering kumpul kelas lagi nanti di SMA." },
+            { name: "Pak Jaka", class: "Wali Kelas IX", text: "Jadilah generasi emas yang membawa nama baik sekolah di manapun berada. Bapak bangga pada kalian." }
+        ];
+
+        function loadMessages() {
+            let stored = localStorage.getItem('bukutamu_perpisahan_smp');
+            let messages = [];
+
+            if (stored) {
+                messages = JSON.parse(stored);
+            } else {
+                messages = defaultMessages;
+                localStorage.setItem('bukutamu_perpisahan_smp', JSON.stringify(messages));
+            }
+
+            messagesContainer.innerHTML = '';
+            // Tampilkan dari yang paling baru (reverse)
+            messages.slice().reverse().forEach(msg => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between text-[10px]">
+                        <span class="font-bold text-slate-900">${escapeHTML(msg.name)} <span class="text-slate-400 font-normal">(${escapeHTML(msg.class)})</span></span>
+                        <span class="text-slate-400"><i class="far fa-clock"></i> Baru saja</span>
+                    </div>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">${escapeHTML(msg.text)}</p>
+                `;
+                messagesContainer.appendChild(card);
+            });
+        }
+
+        function addMessage(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('form-name');
+            const classInput = document.getElementById('form-class');
+            const msgInput = document.getElementById('form-msg');
+
+            let stored = localStorage.getItem('bukutamu_perpisahan_smp');
+            let messages = stored ? JSON.parse(stored) : defaultMessages;
+
+            const newMessage = {
+                name: nameInput.value.trim(),
+                class: classInput.value.trim(),
+                text: msgInput.value.trim()
+            };
+
+            messages.push(newMessage);
+            localStorage.setItem('bukutamu_perpisahan_smp', JSON.stringify(messages));
+
+            // Reset Form & Update Tampilan
+            nameInput.value = '';
+            classInput.value = '';
+            msgInput.value = '';
+            
+            loadMessages();
+            
+            // Scroll ke atas container pesan agar ucapan baru terlihat
+            messagesContainer.scrollTop = 0;
+        }
+
+        // Helper untuk mencegah serangan XSS ringan dari input user
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        // Jalankan saat halaman pertama kali dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMessages();
+        });
+    </script>
+</body>
+</html>
