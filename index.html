@@ -875,7 +875,7 @@
             loadMessages();
         });
 
-        // --- YouTube IFrame API: buat player dan set volume sangat rendah saat diputar ---
+        // --- YouTube IFrame API: buat player dan kontrol audio ---
         var ytPlayer;
         function onYouTubeIframeAPIReady() {
             ytPlayer = new YT.Player('youtube-player', {
@@ -883,12 +883,18 @@
                 playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
                 events: {
                     'onReady': function(event) {
-                        try { event.target.setVolume(2); } catch(e) { /* ignore */ }
+                        try { event.target.setVolume(100); } catch(e) { /* ignore */ }
                     },
                     'onStateChange': function(event) {
-                        // Saat mulai memutar, set volume mendekati 0 (1-2)
                         if (event.data === YT.PlayerState.PLAYING) {
-                            try { event.target.setVolume(1); } catch(e) { /* ignore */ }
+                            try {
+                                event.target.setVolume(100);
+                            } catch(e) { /* ignore */ }
+                            if (music && !music.paused) {
+                                music.pause();
+                                isPlaying = false;
+                                audioIcon.className = "fas fa-volume-mute text-slate-400";
+                            }
                         }
                     }
                 }
